@@ -127,18 +127,44 @@ public class ORDSTestsDay3 {
         JsonPath json = given().
                 accept("application/json").
                 when().
-                get("/countries").prettyPeek().jsonPath();
+                get("/countries").body().prettyPeek().jsonPath();
 
         List<HashMap<String, ?>> allCountries = json.get("items");
 
-        System.out.println(allCountries);
-            // when we read data from json response, values are not only strings
+//        System.out.println(allCountries);
+        // when we read data from json response, values are not only strings
         //so if we are not sure that all values will have same data type
         //we can put ?
-        for(HashMap<String, ?> map: allCountries){
+        for (HashMap<String, ?> map : allCountries) {
             System.out.println(map);
         }
+
+        System.out.println("\n\n\n\n\nAll countries first country =>" + allCountries.get(0));
     }
 
+    @Test
+    public void test6() {
+        List<String> allnumbers = given().
+                accept("application/json").
+                when().
+                get("/employees").thenReturn().body().jsonPath().get("item.phone_number");
+        allnumbers.replaceAll(p -> p.toString().replace("."," "));
+        System.out.println(allnumbers);
+    }
+    @Test
+    public  void test7(){
 
+        given().accept("application/json").pathParam("id",1700)
+                .when()
+                    .get("/locations/{id}")
+                .then()
+                    .assertThat().statusCode(200)
+                    .and().assertThat().body("location_id",is(1700)
+                                            ,"postal_code",is("98199")
+                                            ,"city",is("Seattle")
+                                            ,"state_province",is("Washington"))
+                    .and().log().body();
+
+    }
 }
+
