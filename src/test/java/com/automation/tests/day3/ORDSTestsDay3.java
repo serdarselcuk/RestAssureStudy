@@ -127,15 +127,15 @@ public class ORDSTestsDay3 {
         JsonPath json = given().
                 accept("application/json").
                 when().
-                get("/countries").prettyPeek().jsonPath();
+                get("/countries").body().prettyPeek().jsonPath();
 
         List<HashMap<String, ?>> allCountries = json.get("items");
 
-        System.out.println(allCountries);
-            // when we read data from json response, values are not only strings
+//        System.out.println(allCountries);
+        // when we read data from json response, values are not only strings
         //so if we are not sure that all values will have same data type
         //we can put ?
-        for(HashMap<String, ?> map: allCountries){
+        for (HashMap<String, ?> map : allCountries) {
             System.out.println(map);
         }
 
@@ -197,4 +197,3 @@ public class ORDSTestsDay3 {
 
     }
 
-}
