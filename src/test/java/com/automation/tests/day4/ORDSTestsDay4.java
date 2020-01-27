@@ -121,20 +121,6 @@ public class ORDSTestsDay4 {
      *  |United States of America |
      *
      */
-//to switch to java 9, add/replace it in pom.xml:
-
-//    <build>
-//        <plugins>
-//            <plugin>
-//                <groupId>org.apache.maven.plugins</groupId>
-//                <artifactId>maven-compiler-plugin</artifactId>
-//                <configuration>
-//                    <source>9</source>
-//                    <target>9</target>
-//                </configuration>
-//            </plugin>
-//        </plugins>
-//    </build>
 
     @Test
     @DisplayName("Verify that payload contains following countries")
