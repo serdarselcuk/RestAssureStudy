@@ -10,10 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.*;
@@ -85,7 +82,7 @@ public class ORDSTestsDay4 {
                                 accept(ContentType.JSON).
 //                                queryParam("q", "{\"country_id\":\"US\"}").
                             when().
-                                get("/countries");
+                                get("/countries"); // new Response();
 
         JsonPath jsonPath = response.jsonPath();
         //if I don't put index, I will get collection of properties (only if they exists)
@@ -122,11 +119,26 @@ public class ORDSTestsDay4 {
      *
      */
 
+//to switch to java 9, add/replace it in pom.xml:
+
+//    <build>
+//        <plugins>
+//            <plugin>
+//                <groupId>org.apache.maven.plugins</groupId>
+//                <artifactId>maven-compiler-plugin</artifactId>
+//                <configuration>
+//                    <source>9</source>
+//                    <target>9</target>
+//                </configuration>
+//            </plugin>
+//        </plugins>
+//    </build>
+
     @Test
     @DisplayName("Verify that payload contains following countries")
     public void test5() {
         //to use List.of() set java 9 at least
-        List<String> expected = List.of("Argentina", "Brazil", "Canada", "Mexico", "United States of America");
+        List<String> expected = Arrays.asList("Argentina", "Brazil", "Canada", "Mexico", "United States of America");
 
         Response response = given().
                                 accept(ContentType.JSON).
@@ -218,7 +230,7 @@ public class ORDSTestsDay4 {
     @Test
     @DisplayName("verify that body returns following salary information after sorting from higher to lower(after sorting it in descending order)")
     public void test8(){
-        List<Integer> expectedSalaries = List.of(24000, 17000, 17000, 12008, 11000,
+        List<Integer> expectedSalaries =  Arrays.asList(24000, 17000, 17000, 12008, 11000,
                                                 9000, 9000, 8200, 8200, 8000,
                                                 7900, 7800, 7700, 6900, 6500,
                                                 6000, 5800, 4800, 4800, 4200,
