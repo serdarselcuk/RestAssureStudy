@@ -1,6 +1,7 @@
 package com.automation.tests.day6;
 
 import com.automation.pojos.Spartan;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 
 import com.automation.pojos.Job;
@@ -164,6 +165,83 @@ public class SpartanTests {
 //        when().delete("/spartans/{id}", spartan_from_response.getSpartanId()).
 //                prettyPeek().
 //                then().assertThat().statusCode(204);
+
+    }
+
+    @Test
+    @DisplayName("Delete user")
+    public void test6(){
+        int idOfTheUserThatYouWantToDelete = 125;
+
+        Response response = when().delete("/spartans/{id}", idOfTheUserThatYouWantToDelete);
+
+        response.prettyPeek();
+    }
+
+    @Test
+    @DisplayName("Delete half of the records")
+    public void test7(){
+        int idOfTheUserThatYouWantToDelete = 125;
+        Response response = given().
+                                accept(ContentType.JSON).
+                            when().
+                                get("/spartans");
+        //I collected all user id's
+        List<Integer> userIDs = response.jsonPath().getList("id");
+
+        //I sorted user id's in descending order
+        Collections.sort(userIDs, Collections.reverseOrder());
+        System.out.println("Before: "+userIDs);
+
+        //I went through half of the collection, and deleted half of the users
+        //userIDs.size()/2 - represents half of the spartans
+        for(int i=0; i< userIDs.size()/2;i++){
+            //will delete spartan based on id that you specify
+            when().delete("/spartans/{id}", userIDs.get(i));
+        }
+
+//        Response response2 = when().delete("/spartans/{id}", idOfTheUserThatYouWantToDelete);
+//
+//        response.prettyPeek();
+    }
+
+//    "Phone number should be at least 10 digit and UNIQUE!!",
+    @Test
+    @DisplayName("Add 100 test users to Spartan app")
+    public void test8(){
+        Faker faker = new Faker();
+        for(int i=0; i<100; i++){
+            Spartan spartan = new Spartan();
+
+            spartan.setName(faker.name().firstName());
+            //remove all non-digits
+            //
+            String phone = faker.phoneNumber().subscriberNumber(12).replaceAll("\\D", "");
+            //convert from String to Long
+            spartan.setPhone(Long.parseLong(phone));
+
+            spartan.setGender("Male");
+
+            System.out.println(spartan);
+
+            Response response = given().
+                    contentType(ContentType.JSON).
+                    body(spartan).
+                    when().
+                    post("/spartans");
+
+            System.out.println(response.jsonPath().getString("success"));
+
+            assertEquals(201, response.getStatusCode());
+              //come back at 3:20
+        }
+    }
+
+
+
+    @Test
+    @DisplayName("Get all spartan id's and print it as list")
+    public void test9(){
 
     }
 
