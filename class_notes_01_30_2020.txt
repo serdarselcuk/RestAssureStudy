@@ -1,0 +1,32 @@
+Today is 01/30/2020
+
+	Some review:
+
+		we will use Spartan.
+		POST, GET
+		build POJO
+
+	after lunch break
+
+		DELETE
+		PUT
+
+####################################################
+
+
+Explore spartan app on your ec2(cybertek_instance). Just enter host address of ec2 + :8000 as port number.
+
+
+If you don't have ec2, please use mine:
+App: http://ec2-34-201-69-55.compute-1.amazonaws.com:8000
+Swagger doc: http://ec2-34-201-69-55.compute-1.amazonaws.com:8000/swagger-ui.html#/
+
+variable name: baseUrl
+variable value: http://ec2-34-201-69-55.compute-1.amazonaws.com:8000
+
+	baseUrl+/api/spartans | end point, and this one returns list of users
+
+
+
+
+

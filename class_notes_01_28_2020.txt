@@ -145,6 +145,80 @@ BREAK till 2:05
 </dependency>
 
 
+A JavaBean/POJO is just a standard
+
+All properties private (use getters/setters)
+A public no-argument constructor
+Implements Serializable.
+That's it. It's just a convention. Lots of libraries depend on it though.
+
+With respect to Serializable, from the API documentation:
+
+Serializability of a class is enabled by the class implementing the java.io.Serializable interface. Classes that do not implement this interface will not have any of their state serialized or deserialized. All subtypes of a serializable class are themselves serializable. The serialization interface has no methods or fields and serves only to identify the semantics of being serializable.
+
+
+
+#Task
+
+Create POJO for Location:
+
+public class Location{
+	@SerializedName("location_id")
+	private int locationId;
+
+    "location_id": 2900,
+    "street_address": "20 Rue des Corps-Saints",
+    "postal_code": "1730",
+    "city": "Geneva",
+    "state_province": "Geneve",
+    "country_id": "CH",
+
+
+}
+
+Write 2 tests:
+	#1 convert JSON object into your custom Location POJO
+	#2 convert JSON payload of jobs into your custom collection of Location class. List<Location>
+
+	Same thing like we did with Job class
+
+	* follow java naming conventions!
+
+
+
+PUT - to update existing record
+POST - add new record
+
+{
+  "admissionNo": "1234",
+  "batch": 12,
+  "birthDate": "01/01/1890",
+  "company": {
+    "address": {
+      "city": "McLean",
+      "state": "Virginia",
+      "street": "7925 Jones Branch Dr",
+      "zipCode": 22102
+    },
+    "companyName": "Cybertek",
+    "startDate": "02/02/2020",
+    "title": "SDET"
+  },
+  "contact": {
+    "emailAddress": "james_bond@gmail.com",
+    "phone": "240-123-1231",
+    "premanentAddress": "7925 Jones Branch Dr"
+  },
+  "firstName": "James",
+  "gender": "Males",
+  "joinDate": "01/01/3321",
+  "lastName": "Bond",
+  "major": "CS",
+  "password": "1234",
+  "section": "101010",
+  "subject": "Math"
+}
+
 
 
 
