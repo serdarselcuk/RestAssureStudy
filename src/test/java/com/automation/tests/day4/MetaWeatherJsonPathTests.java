@@ -62,19 +62,36 @@ public class MetaWeatherJsonPathTests {
     @Test
     @DisplayName("Verifies that 1st city has following info:New York, City, 2459115, 40.71455,-74.007118")
     public void test2() {
-            given().
-                    accept(ContentType.JSON).
-                    queryParam("query", "New").
-            when().
-                    get("/search").
-            then().
-                    assertThat().
-                        statusCode(200).
-                        body("title[0]", is("New York")).
-                        body("location_type[0]", is("City")).
-                        body("woeid[0]", is(2459115)).
-                        body("latt_long[0]", is("40.71455,-74.007118")).
-                        log().body(true);
+        given().
+                accept(ContentType.JSON).
+                queryParam("query", "New").
+                when().
+                get("/search").
+                then().
+                assertThat().
+                statusCode(200).
+                body("title[0]", is("New York")).
+                body("location_type[0]", is("City")).
+                body("woeid[0]", is(2459115)).
+                body("latt_long[0]", is("40.71455,-74.007118")).
+                log().body(true);
+    }
+        @Test
+        @DisplayName("Verifies that 1st city has following info:New York, City, 2459115, 40.71455,-74.007118")
+        public void test2_1() {
+        given().
+                accept(ContentType.JSON).
+                queryParam("query", "New").
+                when().
+                get("/search").
+                then().
+                assertThat().
+                statusCode(200).
+                body("title[0]", is("New York")).
+                body("location_type[0]", is("City")).
+                body("woeid[0]", is(2459115)).
+                body("latt_long[0]", is("40.71455,-74.007118")).
+                log().body(true);
     }
 
     @Test
@@ -112,7 +129,7 @@ public class MetaWeatherJsonPathTests {
             * |Las Vegas|*/
 
     @Test
-    public void test3(){
+    public void test3() {
         given().
             accept(ContentType.JSON).
             queryParam("query", "Las").
