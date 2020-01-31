@@ -1,7 +1,6 @@
 package com.automation.pojos;
 
 import com.google.gson.annotations.SerializedName;
-import org.junit.jupiter.api.Test;
 
 //          {
 //           "id": 112,
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 //           "phone": 7654321876
 //           },
 public class Spartan {
-
     @SerializedName("id")// "id"
     private int spartanId;
     private String name;// "name"
@@ -90,5 +88,4 @@ public class Spartan {
         this.gender = gender;
         return this;
     }
-
 }

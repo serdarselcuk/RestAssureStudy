@@ -56,15 +56,4 @@ public class ORDSTestsDay5 {
 
     }
 
-    @Test
-    public void test(){
-        given().
-                accept(ContentType.JSON).
-            when().
-                get("/employees").
-            then().statusCode(200).
-                body("items.salary",greaterThan(5000));
-
-    }
-
 }

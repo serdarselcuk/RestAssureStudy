@@ -2,12 +2,14 @@ package com.automation.tests.day3;
 
 import com.automation.utilities.ConfigurationReader;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,47 +129,78 @@ public class ORDSTestsDay3 {
         JsonPath json = given().
                 accept("application/json").
                 when().
-                get("/countries").body().prettyPeek().jsonPath();
+                get("/countries").prettyPeek().jsonPath(); // exclude .prettyPeek() and you will not see detailed info about response
 
         List<HashMap<String, ?>> allCountries = json.get("items");
 
-//        System.out.println(allCountries);
+        System.out.println(allCountries);
         // when we read data from json response, values are not only strings
         //so if we are not sure that all values will have same data type
-        //we can put <<?>>
+        //we can put ?
         for (HashMap<String, ?> map : allCountries) {
             System.out.println(map);
         }
-
-        System.out.println("\n\n\n\n\nAll countries first country =>" + allCountries.get(0));
     }
 
+    // get collection of employee's salaries
+    // then sort it
+    // and print
     @Test
-    public void test6() {
-        List<String> allnumbers = given().
+    public void test6(){
+        List<Integer> salaries = given().
                                         accept("application/json").
-                                    when().
+                                 when().
                                         get("/employees").
-                                    thenReturn().
-                                        jsonPath().get("item.phone_number");
-
-//        allnumbers.replaceAll(p -> p.toString().replace("."," "));
-        System.out.println(allnumbers.get(0));
+                                 thenReturn().jsonPath().get("items.salary");
+        Collections.sort(salaries, Collections.reverseOrder());//sort from a to z, 0-9
+        System.out.println(salaries);
     }
+
+    //get collection of phone numbers, from employees
+    //and replace all dots "." in every phone number with dash "-"
+
     @Test
-    public  void test7(){
+    public void test7(){
+        List<Object> phoneNumbers=given().
+                accept("application/json").
+                when().get("/employees").
+                thenReturn().jsonPath().get("items.phone_number"); //it calls Gpath (GroovyPath), like Xpath(XMLpath),
 
-        given().accept("application/json").pathParam("id",1700)
-                .when()
-                    .get("/locations/{id}")
-                .then()
-                    .assertThat().statusCode(200)
-                    .and().assertThat().body("location_id",is(1700)
-                                            ,"postal_code",is("98199")
-                                            ,"city",is("Seattle")
-                                            ,"state_province",is("Washington"))
-                    .and().log().body();
+//        Replaces each element of this list with the result of applying the operator to that element.
+//        replace '.' with '-' in every value
+        phoneNumbers.replaceAll(phone -> phone.toString().replace(".", "-"));
+
+        System.out.println(phoneNumbers);
+    }
+
+
+    /** ####TASK#####
+     *  Given accept type as JSON
+     *  And path parameter is id with value 1700
+     *  When user sends get request to /locations
+     *  Then user verifies that status code is 200
+     *  And user verifies following json path information:
+     *      |location_id|postal_code|city   |state_province|
+     *      |1700       |98199      |Seattle|Washington    |
+     *
+     */
+
+    @Test
+    public void test8(){
+        Response response = given().
+                                accept(ContentType.JSON).
+                                pathParam("id", 1700).
+                            when().
+                                get("/locations/{id}");
+
+        response.
+                then().
+                    assertThat().body("location_id", is(1700)).
+                    assertThat().body("postal_code", is("98199")).
+                    assertThat().body("city", is("Seattle")).
+                    assertThat().body("state_province", is("Washington")).
+                    log().body();
 
     }
-}
 
+}

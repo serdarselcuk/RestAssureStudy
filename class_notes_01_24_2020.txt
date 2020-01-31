@@ -117,3 +117,32 @@ JsonPath is an alternative to using XPath for easily getting values from a Objec
 
 	Break till 3:18
 
+
+  /** ####TASK#####
+     *  Given accept type as JSON
+     *  And path parameter is id with value 1700
+     *  When user sends get request to /locations
+     *  Then user verifies that status code is 200
+     *  And user verifies following json path information:
+     *      |location_id|postal_code|city   |state_province|
+     *      |1700       |98199      |Seattle|Washington    |
+     *
+     */
+
+    @Test
+    public void test8(){
+        Response response = given().
+                                accept(ContentType.JSON).
+                                pathParam("id", 1700).
+                            when().
+                                get("/locations/{id}");
+
+        response.
+                then().
+                    assertThat().body("location_id", is(1700)).
+                    assertThat().body("postal_code", is("98199")).
+                    assertThat().body("city", is("Seattle")).
+                    assertThat().body("state_province", is("Washington")).
+                    log().body();
+
+    }
