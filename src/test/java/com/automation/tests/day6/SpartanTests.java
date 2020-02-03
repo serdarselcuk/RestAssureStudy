@@ -294,12 +294,12 @@ public class SpartanTests {
             System.out.println(spartan);
 
             Response response = given().
-                                    contentType(ContentType.JSON).
-                                    body(spartan).
-                                when().
-                                    post("/spartans").prettyPeek();
-            
-             //whenever you successfully add new spartan, you will get this message: "A Spartan is Born!",
+                    contentType(ContentType.JSON).
+                    body(spartan).
+                    when().
+                    post("/spartans").prettyPeek();
+
+            //whenever you successfully add new spartan, you will get this message: "A Spartan is Born!",
             System.out.println(response.jsonPath().getString("success"));
             //verify that response status code is 201,
             //in our case 201 means that post request went well
@@ -307,6 +307,7 @@ public class SpartanTests {
 
         }
     }
+
 
 
     @Test
