@@ -1,7 +1,13 @@
 package com.automation.tests.assignment;
 
+import com.automation.pojos.Spartan;
+import com.automation.utilities.APIUtilities;
+import com.automation.utilities.ConfigurationReader;
+import com.google.gson.annotations.SerializedName;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,6 +18,8 @@ import java.util.Set;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class UI_names {
 
     @BeforeAll
@@ -134,21 +142,43 @@ public class UI_names {
                    body("gender",everyItem(is("male")));
 
     }
-    @Test
-    public void test8() {
+    /*@SerializedName("id")// "id"
+    private int spartanId;
+    private String name;// "name"
+    private String gender;//"gender"
+    private long phone;//"phone"*/
+    public static void main(String[] args)  {
 
-        given().
+        List<Map<String,String>> people  = given().baseUri("https://uinames.com/api/").
                 accept(ContentType.JSON).
                 queryParam("region", "Nepal").
                 queryParam("amount", 25).
                 when().
                 get().
-                then().
-                assertThat().
-                statusCode(200).
-                contentType("application/json; charset=utf-8").
-                body("",hasSize(25));
+                thenReturn().jsonPath().getList("");
 
+        System.out.println("is map get people :" +( people.size() > 24));
+
+        int sparatanId = 2000;
+        for (Map entries:people ) {
+
+            String name = entries.get("name") +"";
+            String gender = entries.get("gender")+"";
+            long phone = sparatanId + 2345568000l;
+            sparatanId++;
+            Spartan spartan = new Spartan(name,gender,phone);
+            System.out.println("the  knowledge of created spartan: "+spartan.getName()+" "+spartan.getPhone()+" "+spartan.getGender());
+            Response response = given().
+                    contentType(ContentType.JSON).
+                    body(spartan).
+                    when().
+                    post("/spartans");
+            assertEquals(201, response.getStatusCode(), "Status code is wrong!");
+            assertEquals("application/json", response.getContentType(), "Content type is invalid!");
+            assertEquals(response.jsonPath().getString("success"), "A Spartan is Born!");
+
+
+        }
 
     }
 

@@ -17,6 +17,22 @@ public class APIUtilities {
     /**
      * This method can POST new spartan
      *
+     * @param filePath to the Spartan external JSON file
+     * @return response object
+     */
+    public static Response postSpartan(String filePath) {
+        RestAssured.baseURI = URI;
+        File file = new File(filePath);
+        return given().
+                contentType(ContentType.JSON).
+                body(file).
+                when().
+                post("/spartans");
+    }
+
+    /**
+     * This method can POST new spartan
+     *
      * @param spartan POJO
      * @return response object
      */
@@ -37,7 +53,7 @@ public class APIUtilities {
      * @return response object
      */
     public static Response postSpartan(Map<String, ?> spartan) {
-        RestAssured.baseURI = ConfigurationReader.getProperty("spartan.uri");
+        RestAssured.baseURI = URI;
         Response response = given().
                 contentType(ContentType.JSON).
                 body(spartan).
@@ -46,24 +62,6 @@ public class APIUtilities {
         return response;
     }
 
-
-    /**
-     * This method can POST new spartan
-     *
-     * @param filePath to the Spartan external JSON file
-     * @return response object
-     */
-    public static Response postSpartan(String filePath) {
-        RestAssured.baseURI = ConfigurationReader.getProperty("spartan.uri");
-        File file = new File(filePath);
-        RestAssured.baseURI = ConfigurationReader.getProperty("spartan.uri");
-        Response response = given().
-                contentType(ContentType.JSON).
-                body(file).
-                when().
-                post("/spartans");
-        return response;
-    }
 
     /**
      * Method to delete spartan

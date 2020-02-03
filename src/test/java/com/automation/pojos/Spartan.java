@@ -20,9 +20,9 @@ public class Spartan {
     }
 
     public Spartan(String name, String gender, long phone) {
-        this.name = name;
-        this.gender = gender;
-        this.phone = phone;
+        setName(name);
+        setGender(gender);
+        setPhone(phone);
     }
 
     public Spartan(int spartanId, String name, String gender, long phone) {
@@ -53,7 +53,7 @@ public class Spartan {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        this.gender = gender.replaceFirst(gender.substring(0,1),gender.substring(0,1).toUpperCase());
     }
 
     public long getPhone() {
