@@ -1,6 +1,9 @@
 package com.automation.tests.assignment;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+
+import com.automation.pojos.Character;
+import com.automation.pojos.House;
 import com.automation.utilities.ConfigurationReader;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -14,11 +17,11 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 public class HaryPotterApi {
-
+    static String  key;
 
     @BeforeAll
     public static void startUp() {
-
+        key = "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.";
         baseURI = ConfigurationReader.getProperty("potterapi");
     }
 
@@ -84,7 +87,7 @@ public class HaryPotterApi {
 
         given().
                 accept(ContentType.JSON).
-                queryParam("key", "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.").
+                queryParam("key", key ).
             when().
                 get("/characters").
             then().
@@ -101,7 +104,7 @@ public class HaryPotterApi {
 
         given().
                 accept(ContentType.JSON).
-                queryParam("key", "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.").
+                queryParam("key", key).
             when().
                 get("/characters").
             then().
@@ -120,7 +123,7 @@ public class HaryPotterApi {
 
         given().
                 accept(ContentType.JSON).
-                queryParam("key", "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.").
+                queryParam("key", key).
                 queryParam("name", "Ludo Bagman").
             when().
                 get("/characters").
@@ -148,7 +151,7 @@ public class HaryPotterApi {
         for (String person : people) {
             response = given().
                     accept(ContentType.JSON).
-                    queryParam("key", "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.").
+                    queryParam("key", key).
                     queryParam("name", person).
                     when().
                     get("/characters");
@@ -165,33 +168,92 @@ public class HaryPotterApi {
     @Test
     @DisplayName("Verify house members")
     public void Test8() {
-        String key = "$2a$10$kFn7hhS2HAIoBhQX8CcumOJhV58NFfKaunq83jLlLUZEEGwHIf2F.";
+
         JsonPath js =
         given().
                 accept(ContentType.JSON).
                 queryParam("key", key).
             when().
-                get("/houses").
+                get("/houses").//prettyPeek().
             then().
                 assertThat().
                 statusCode(200).
                 contentType("application/json; charset=utf-8").extract().jsonPath();
         List<Object>members=null;
         String houseId=null;
-
-        for (int i = 0; i < 4; i++) {
+        int i  = 0;
+        for (; i < 4; i++) {// this loop is looking for where Gryffindor is located and takes the order numbera as "i"
             if (js.getString("name["+i+"]").equals("Gryffindor")){
-                houseId=js.getString("_id["+i+"]");
+                houseId=js.getString("_id["+i+"]");  //in the Gryffindor json object we grab the members and house  id`s
                 members = js.getList("members["+i+"]");
             }
         }
+
         given().
                 accept(ContentType.JSON).
                 pathParam("id",houseId).
                 queryParam("key", key).
             when().
                 get("/houses/{id}").
-            then().assertThat().body("_id[0]",is(houseId)).body("members._id",containsInAnyOrder(members));
+            then().assertThat().body("_id["+i+"]",is(houseId)).body("members._id",containsInAnyOrder(members));
+    }
+
+    @Test
+    @DisplayName("Verify house members again")
+    public void Test9() {
+        JsonPath house =
+                given().
+                        accept(ContentType.JSON).
+                        queryParam("key", key).
+                        pathParam("id", "5a05e2b252f721a3cf2ea33f").
+                        when().
+                        get("/houses/{id}").//then().log().all();//prettyPeek().
+                        jsonPath();
+
+        House gryffindor = house.getObject("[0]", House.class);
+
+        List<Character> characters =
+                given().accept(ContentType.JSON).
+                        queryParam("key", key).
+                        queryParam("house", "Gryffindor").
+                        when().
+                        get("/characters").jsonPath().getList("", Character.class);
+
+        List<String> id_in_gryffin = new ArrayList<>();
+        for (Map mapOfCharacter : gryffindor.getMembers()) {
+            id_in_gryffin.add(mapOfCharacter.get("_id").toString());
+        }
+        for (Character ch : characters) {
+            Assertions.assertTrue(id_in_gryffin.contains(ch.getId()), "person couldn`t found :" + ch.getName() + " " + ch.getId());
+        }
+    }
+        @Test
+        @DisplayName("Verify Gryffindor has most largest member")
+        public void Test10() {
+
+            JsonPath js =
+                    given().
+                            accept(ContentType.JSON).
+                            queryParam("key", key).
+                            when().
+                            get("/houses").//prettyPeek().
+                            then().
+                            assertThat().
+                            statusCode(200).
+                            contentType("application/json; charset=utf-8").extract().jsonPath();
+
+            int membersSize = 0 ;
+            String houseName = null;
+
+            for (int i = 0; i < 4; i++) {// this loop is looking for where Gryffindor is located and takes the order numbera as "i"
+                int num = js.getList("members["+i+"]").size();
+                    if(num>membersSize){
+                        membersSize = num ;
+                        houseName = js.get("name["+i+"]");
+            }
+                Assertions.assertTrue(houseName.equalsIgnoreCase("Gryffindor"));
+
+        }
     }
 }
 
