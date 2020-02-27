@@ -28,7 +28,7 @@ public class MetaWeatherTests {
 
     @Test
     public void test1() {
-        Response response = given()
+        Response response = given().log().uri()
                 .baseUri(baseURI + "location/search/")
                 .queryParam("query", "New")
                 .get();
