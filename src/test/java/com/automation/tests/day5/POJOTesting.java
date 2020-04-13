@@ -3,26 +3,23 @@ package com.automation.tests.day5;
 
 import com.automation.pojos.Job;
 import com.automation.pojos.Location;
+import com.automation.pojos.Spartan;
 import com.automation.utilities.ConfigurationReader;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
-import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import static io.restassured.RestAssured.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
 
 public class POJOTesting {
+
+    private Object spartan;
 
     @BeforeAll
     public static void setup() {
@@ -70,6 +67,7 @@ public class POJOTesting {
         JsonPath jsonPath = response.jsonPath();
         List<Job> jobs = jsonPath.getList("items", Job.class);
 
+
         for (Job job : jobs) {
             System.out.println(job.getJob_title());
         }
@@ -98,9 +96,55 @@ public class POJOTesting {
 
         List<Location> locations = response2.jsonPath().getList("items", Location.class);
 
-        for(Location l: locations){
+        for (Location l : locations) {
             System.out.println(l);
         }
     }
 
+    Gson gson = new Gson();;
+    BufferedReader br;
+    Spartan spa;
+    @Test
+    @DisplayName("spartan red from json file")
+    public void test5() throws IOException {
+
+        try {
+            br = new BufferedReader(
+                    new FileReader(System.getProperty("user.dir")+"/spartan.json"));
+            spa = gson.fromJson(br,Spartan.class);
+            System.out.println(spa);
+        } catch (IOException e) {
+            System.out.println("Failed to load properties file!");
+            e.printStackTrace();
+        }
+        String toHouse = gson.toJson(spa);
+        try {
+            //write converted json data to a file named "CountryGSON.json"
+            FileWriter writer = new FileWriter(System.getProperty("user.dir")+"/house.json");
+            writer.write(toHouse);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @Test
+    @DisplayName("Spartan writen to house.json")
+    public void test6(){
+        String toHouse = gson.toJson(spa);
+        try {
+            //write converted json data to a file named "CountryGSON.json"
+            FileWriter writer = new FileWriter(System.getProperty("user.dir")+"/house.json");
+            writer.write(toHouse);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
+
+
