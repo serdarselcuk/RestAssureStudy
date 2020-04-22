@@ -91,4 +91,18 @@ public class APIUtilities {
             System.out.println("Deleted spartan with id: "+userIDs.get(i));
         }
     }
+    static String timeConversion(String s) {
+        int hourInt = Integer.parseInt(s.substring(0,2));
+        String daySide = ""+s.charAt(s.length()-2);
+
+        hourInt = daySide.equalsIgnoreCase("p")?hourInt+12:hourInt;
+        String hourIntString = hourInt==24? "12": hourInt==12? "00":""+hourInt;
+        s = hourIntString+s.substring(2,(s.length()-2));
+        return s;
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(timeConversion("04:59:59AM"));
+    }
 }

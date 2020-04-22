@@ -4,6 +4,7 @@ package com.automation.tests.day5;
 import com.automation.pojos.Job;
 import com.automation.pojos.Location;
 import com.automation.pojos.Spartan;
+import com.automation.pojos.Student;
 import com.automation.utilities.ConfigurationReader;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -20,6 +21,7 @@ import static io.restassured.RestAssured.*;
 public class POJOTesting {
 
     private Object spartan;
+
 
     @BeforeAll
     public static void setup() {
@@ -111,20 +113,12 @@ public class POJOTesting {
         try {
             br = new BufferedReader(
                     new FileReader(System.getProperty("user.dir")+"/spartan.json"));
+
             spa = gson.fromJson(br,Spartan.class);
+
             System.out.println(spa);
         } catch (IOException e) {
             System.out.println("Failed to load properties file!");
-            e.printStackTrace();
-        }
-        String toHouse = gson.toJson(spa);
-        try {
-            //write converted json data to a file named "CountryGSON.json"
-            FileWriter writer = new FileWriter(System.getProperty("user.dir")+"/house.json");
-            writer.write(toHouse);
-            writer.close();
-
-        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -145,6 +139,18 @@ public class POJOTesting {
 
 
     }
+    @Test
+    @DisplayName("get multiple objects")
+    public void test7(){
+        Student student =null;
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/student.json"));
+            Gson gson = new Gson();
+            student = gson.fromJson(bf,Student.class);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(student.toString());
+    }
 }
-
-
