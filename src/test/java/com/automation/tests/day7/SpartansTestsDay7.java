@@ -30,7 +30,7 @@ public class SpartansTestsDay7 {
 
     @BeforeAll
     public static void setup() {
-        baseURI = ConfigurationReader.getProperty("spartan.uri");
+        baseURI = ConfigurationReader.getProperty("spartanMock.uri");
     }
 
     //add new Spartan from the external JSON file

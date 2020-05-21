@@ -2,6 +2,7 @@ package com.automation.tests.day3;
 
 import com.automation.utilities.ConfigurationReader;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
 import io.restassured.http.Header;
@@ -148,52 +149,54 @@ public class ORDSTestsDay3 {
                 accept("application/json").
                 when().
                 get("/employees").thenReturn().body().jsonPath().get("item.phone_number");
-        allnumbers.replaceAll(p -> p.toString().replace("."," "));
+        allnumbers.replaceAll(p -> p.toString().replace(".", " "));
         System.out.println(allnumbers);
     }
+
     @Test
-    public  void test7(){
+    public void test7() {
 
-        given().accept("application/json").pathParam("id",1700)
+        given().accept("application/json").pathParam("id", 1700)
                 .when()
-                    .get("/locations/{id}")
+                .get("/locations/{id}")
                 .then()
-                    .assertThat().statusCode(200)
-                    .and().assertThat().body("location_id",is(1700)
-                                            ,"postal_code",is("98199")
-                                            ,"city",is("Seattle")
-                                            ,"state_province",is("Washington"))
-                    .and().log().body();
+                .assertThat().statusCode(200)
+                .and().assertThat().body("location_id", is(1700)
+                , "postal_code", is("98199")
+                , "city", is("Seattle")
+                , "state_province", is("Washington"))
+                .and().log().body();
 
-}
+    }
 
 
-    /** ####TASK#####
-     *  Given accept type as JSON
-     *  And path parameter is id with value 1700
-     *  When user sends get request to /locations
-     *  Then user verifies that status code is 200
-     *  And user verifies following json path information:
-     *      |location_id|postal_code|city   |state_province|
-     *      |1700       |98199      |Seattle|Washington    |
-     *
+    /**
+     * ####TASK#####
+     * Given accept type as JSON
+     * And path parameter is id with value 1700
+     * When user sends get request to /locations
+     * Then user verifies that status code is 200
+     * And user verifies following json path information:
+     * |location_id|postal_code|city   |state_province|
+     * |1700       |98199      |Seattle|Washington    |
      */
 
     @Test
-    public void test8(){
+    public void test8() {
         Response response = given().
-                                accept(ContentType.JSON).
-                                pathParam("id", 1700).
-                            when().
-                                get("/locations/{id}");
+                accept(ContentType.JSON).
+                pathParam("id", 1700).
+                when().
+                get("/locations/{id}");
 
         response.
                 then().
-                    assertThat().body("location_id", is(1700)).
-                    assertThat().body("postal_code", is("98199")).
-                    assertThat().body("city", is("Seattle")).
-                    assertThat().body("state_province", is("Washington")).
-                    log().body();
+                assertThat().body("location_id", is(1700)).
+                assertThat().body("postal_code", is("98199")).
+                assertThat().body("city", is("Seattle")).
+                assertThat().body("state_province", is("Washington")).
+                log().body();
 
     }
+}
 
