@@ -83,10 +83,10 @@ public class SchoolTests {
     @DisplayName("Delete student")
     public void test2(){
         Response response2 = given().
-                accept(ContentType.JSON).
-                when().
-                delete("student/delete/{id}", 58).
-                prettyPeek();
+                                accept(ContentType.JSON).
+                            when().
+                                delete("student/delete/{id}", 58).
+                                prettyPeek();
     }
 
     @Test

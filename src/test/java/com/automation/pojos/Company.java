@@ -1,15 +1,5 @@
 package com.automation.pojos;
 
-/**
- * Composition - is one of the fundamental concepts of OOP
- * When class, is referenced to one or more objects of another class
- * in instance variables, it calls composition.
- *
- * company object will contain address object
- *
- * The main advantage of Composition is that you can reuse the code
- * without is-a relationship (without inheritance)
- */
 public class Company {
     private Address address;
     private int companyId;
@@ -17,15 +7,14 @@ public class Company {
     private String startDate;
     private String title;
 
-    public Company(Address address, String companyName, String startDate, String title) {
+    public Company() { }
+
+    public Company(Address address, int companyId, String companyName, String startDate, String title) {
         this.address = address;
+        this.companyId = companyId;
         this.companyName = companyName;
         this.startDate = startDate;
         this.title = title;
-    }
-
-    public Company(){
-
     }
 
     public Address getAddress() {

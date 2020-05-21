@@ -1,25 +1,29 @@
 package com.automation.pojos;
 
 public class Address {
+
     private int addressId;
     private String city;
     private String state;
     private String street;
-    private int zipCode;
+    private  int zipCode;
 
-    public Address(){
+    public Address(){}
 
-    }
-
-    public Address(String city, String state, String street, int zipCode) {
+    public Address(int sddressId, String city, String state, String street, int zipCode) {
+        this.addressId = sddressId;
         this.city = city;
         this.state = state;
         this.street = street;
         this.zipCode = zipCode;
     }
 
-    public int getAddressId() {
+    public int getSddressId() {
         return addressId;
+    }
+
+    public void setSddressId(int sddressId) {
+        this.addressId = sddressId;
     }
 
     public String getCity() {
@@ -57,11 +61,16 @@ public class Address {
     @Override
     public String toString() {
         return "Address{" +
-                "addressId=" + addressId +
+                "sddressId=" + addressId +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", street='" + street + '\'' +
                 ", zipCode=" + zipCode +
                 '}';
+
+
+
     }
 }
+
+

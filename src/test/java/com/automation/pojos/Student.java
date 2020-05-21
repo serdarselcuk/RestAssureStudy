@@ -1,11 +1,9 @@
 package com.automation.pojos;
 
+import java.util.Date;
+
 public class Student {
-    private String admissionNo;
-    private int batch;
-    private String birthDate;
-    private Company company;
-    private Contact contact;
+
     private String firstName;
     private String gender;
     private String joinDate;
@@ -15,17 +13,15 @@ public class Student {
     private String section;
     private int studentId;
     private String subject;
+    private Company company;
+    private Contact contact;
+    private String admissionNo;
+    private int batch;
+    private String birthDate;
 
-    public Student(){
+    public Student(){}
 
-    }
-
-    public Student(String admissionNo, int batch, String birthDate, Company company, Contact contact, String firstName, String gender, String joinDate, String lastName, String major, String password, String section, String subject) {
-        this.admissionNo = admissionNo;
-        this.batch = batch;
-        this.birthDate = birthDate;
-        this.company = company;
-        this.contact = contact;
+    public Student(String firstName, String gender, String joinDate, String lastName, String major, String password, String section, int studentId, String subject, Company company, Contact contact, String admissionNo, int batch, String birthDate) {
         this.firstName = firstName;
         this.gender = gender;
         this.joinDate = joinDate;
@@ -33,47 +29,13 @@ public class Student {
         this.major = major;
         this.password = password;
         this.section = section;
+        this.studentId = studentId;
         this.subject = subject;
-    }
-
-    public String getAdmissionNo() {
-        return admissionNo;
-    }
-
-    public void setAdmissionNo(String admissionNo) {
-        this.admissionNo = admissionNo;
-    }
-
-    public int getBatch() {
-        return batch;
-    }
-
-    public void setBatch(int batch) {
-        this.batch = batch;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
         this.company = company;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
         this.contact = contact;
+        this.admissionNo = admissionNo;
+        this.batch = batch;
+        this.birthDate = birthDate;
     }
 
     public String getFirstName() {
@@ -148,16 +110,50 @@ public class Student {
         this.subject = subject;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public String getAdmissionNo() {
+        return admissionNo;
+    }
+
+    public void setAdmissionNo(String admissionNo) {
+        this.admissionNo = admissionNo;
+    }
+
+    public int getBatch() {
+        return batch;
+    }
+
+    public void setBatch(int batch) {
+        this.batch = batch;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Student{" +
-                "admissionNo='" + admissionNo + '\'' +
-                ", batch=" + batch +
-                ", birthDate='" + birthDate + '\'' +
-                ", company=" + company +
-                ", contact=" + contact +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", joinDate='" + joinDate + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -166,6 +162,12 @@ public class Student {
                 ", section='" + section + '\'' +
                 ", studentId=" + studentId +
                 ", subject='" + subject + '\'' +
+                ", company=" + company +
+                ", contact=" + contact +
+                ", admissionNo='" + admissionNo + '\'' +
+                ", batch=" + batch +
+                ", birthDate='" + birthDate + '\'' +
                 '}';
     }
 }
+

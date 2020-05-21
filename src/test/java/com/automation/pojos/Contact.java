@@ -2,25 +2,29 @@ package com.automation.pojos;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Contact {
-    private int contactId;
-    private String emailAddress;
-    private String phone;
-    @SerializedName("premanentAddress")
-    private String permanentAddress;
+public class Contact    {
 
-    public Contact(){
+private int contactId;
+private String emailAddress;
+private String phone;
+@SerializedName("premanentAddress")
+private String permanentAdress;
 
-    }
+public Contact(){}
 
-    public Contact(String emailAddress, String phone, String permanentAddress) {
+    public Contact(int contactId, String emailAddress, String phone, String permanentAdress) {
+        this.contactId = contactId;
         this.emailAddress = emailAddress;
         this.phone = phone;
-        this.permanentAddress = permanentAddress;
+        this.permanentAdress = permanentAdress;
     }
 
     public int getContactId() {
         return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 
     public String getEmailAddress() {
@@ -39,12 +43,12 @@ public class Contact {
         this.phone = phone;
     }
 
-    public String getPermanentAddress() {
-        return permanentAddress;
+    public String getPermanentAdress() {
+        return permanentAdress;
     }
 
-    public void setPermanentAddress(String permanentAddress) {
-        this.permanentAddress = permanentAddress;
+    public void setPermanentAdress(String permanentAdress) {
+        this.permanentAdress = permanentAdress;
     }
 
     @Override
@@ -53,8 +57,7 @@ public class Contact {
                 "contactId=" + contactId +
                 ", emailAddress='" + emailAddress + '\'' +
                 ", phone='" + phone + '\'' +
-                ", permanentAddress='" + permanentAddress + '\'' +
+                ", permanentAdress='" + permanentAdress + '\'' +
                 '}';
     }
-
 }

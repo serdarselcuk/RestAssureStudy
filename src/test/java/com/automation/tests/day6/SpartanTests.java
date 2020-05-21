@@ -157,6 +157,7 @@ public class SpartanTests {
         for (Map<String, ?> map : collection) {
             System.out.println(map);
         }
+
     }
 
     /**

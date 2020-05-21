@@ -13,13 +13,13 @@ Today is 01/31/2020
 
 
 	CRUD
-					In SQL
-	C - create | INSERT
-	R - read   | SELECT
-	U - update | UPDATE
-	D - delete | DELETE
+				 SQL          API
+	C - create | INSERT     | POST
+	R - read   | SELECT     | GET
+	U - update | UPDATE     | PUT
+	D - delete | DELETE     | DELETE
 
-	In API, there are HTTP verbs fro CRUD operations:
+	In API, there are HTTP verbs for CRUD operations:
 
 	POST (CREATE) - to create something, and then you should get 201 status code, if no - it's a bug, or you failed to create something because your request was not correct.
 

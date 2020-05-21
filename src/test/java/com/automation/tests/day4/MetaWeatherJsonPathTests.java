@@ -48,7 +48,7 @@ public class MetaWeatherJsonPathTests {
                 log().body(true);
 
     }
-
+//    https://www.metaweather.com/api/location/search?qeuery=New
 
     /**
      * TASK
